@@ -4,13 +4,39 @@ import { Head } from "@inertiajs/react";
 
 export default function ShoppingCart() {
     const products = [
-        { id: 1, name: "Keyboard", price: 1500 },
-        { id: 2, name: "Mouse", price: 500 },
-        { id: 3, name: "Monitor", price: 4500 },
-        { id: 4, name: "Headset", price: 1200 }
+        {
+            id: 1,
+            name: "Gaming Keyboard",
+            price: 1500,
+            category: "Gaming",
+            image: "/images/keyboard.jpg"
+        },
+        {
+            id: 2,
+            name: "Office Mouse",
+            price: 500,
+            category: "Office",
+            image: "/images/mouse.jpg"
+        },
+        {
+            id: 3,
+            name: "Gaming Monitor",
+            price: 4500,
+            category: "Gaming",
+            image: "/images/monitor.jpg"
+        },
+        {
+            id: 4,
+            name: "Headset",
+            price: 1200,
+            category: "Gaming",
+            image: "/images/headset.jpg"
+        }
     ];
 
     const [cartItems, setCartItems] = useState([]);
+    const [search, setSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("All");
 
     const addToCart = (product) => {
         setCartItems([...cartItems, product]);
@@ -22,73 +48,136 @@ export default function ShoppingCart() {
 
     const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
 
+    const filteredProducts = products.filter((product) => {
+        const matchSearch = product.name
+            .toLowerCase()
+            .includes(search.toLowerCase());
+
+        const matchCategory =
+            selectedCategory === "All" ||
+            product.category === selectedCategory;
+
+        return matchSearch && matchCategory;
+    });
+
     return (
         <BootstrapLayout>
             <Head title="Shopping Cart" />
 
-            <div className="container py-5">
-                <h1 className="text-center mb-5 fw-bold text-primary">
-                    Shopping Cart
-                </h1>
+            <div
+                style={{
+                    minHeight: "100vh",
+                    background: "linear-gradient(to right, #dbeafe, #f0f9ff)"
+                }}
+            >
+                <div className="container py-5">
+                    <div className="text-center mb-5">
+                        <h1 className="fw-bold display-4 text-primary">
+                            Tech Store
+                        </h1>
+                        <p className="text-muted">
+                            Unique Shopping Cart with React State
+                        </p>
+                    </div>
 
-                <div className="row g-4">
-                    {/* Product Section */}
-                    <div className="col-md-7">
-                        <div className="card shadow-lg border-0 rounded-4">
-                            <div className="card-body p-4">
-                                <h3 className="mb-4">Products</h3>
+                    {/* Search + Filter */}
+                    <div className="row mb-4">
+                        <div className="col-md-8">
+                            <input
+                                className="form-control shadow-sm"
+                                placeholder="Search product..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                        </div>
 
-                                {products.map((product) => (
+                        <div className="col-md-4">
+                            <select
+                                className="form-select shadow-sm"
+                                value={selectedCategory}
+                                onChange={(e) =>
+                                    setSelectedCategory(e.target.value)
+                                }
+                            >
+                                <option>All</option>
+                                <option>Gaming</option>
+                                <option>Office</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {/* Product Section */}
+                        <div className="col-md-8">
+                            <div className="row">
+                                {filteredProducts.map((product) => (
                                     <div
+                                        className="col-md-6 mb-4"
                                         key={product.id}
-                                        className="d-flex justify-content-between align-items-center border rounded-3 p-3 mb-3"
                                     >
-                                        <div>
-                                            <h5 className="mb-1">{product.name}</h5>
-                                            <p className="mb-0 text-muted">
-                                                ราคา {product.price} บาท
-                                            </p>
-                                        </div>
+                                        <div className="card shadow border-0 rounded-4 h-100">
+                                            <img
+                                                src={product.image}
+                                                className="card-img-top"
+                                                alt={product.name}
+                                                style={{
+                                                    height: "220px",
+                                                    objectFit: "cover"
+                                                }}
+                                            />
 
-                                        <button
-                                            className="btn btn-success px-4"
-                                            onClick={() => addToCart(product)}
-                                        >
-                                            Add
-                                        </button>
+                                            <div className="card-body">
+                                                <span className="badge bg-primary mb-2">
+                                                    {product.category}
+                                                </span>
+
+                                                <h5>{product.name}</h5>
+                                                <p>{product.price} บาท</p>
+
+                                                <button
+                                                    className="btn btn-success w-100"
+                                                    onClick={() =>
+                                                        addToCart(product)
+                                                    }
+                                                >
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                    </div>
 
-                    {/* Cart Section */}
-                    <div className="col-md-5">
-                        <div className="card shadow-lg border-0 rounded-4">
-                            <div className="card-body p-4">
-                                <h3 className="mb-4">Cart Items</h3>
+                        {/* Cart Section */}
+                        <div className="col-md-4">
+                            <div className="card shadow-lg border-0 rounded-4 p-4">
+                                <h3>
+                                    Cart 🛒
+                                    <span className="badge bg-danger ms-2">
+                                        {cartItems.length}
+                                    </span>
+                                </h3>
+
+                                <hr />
 
                                 {cartItems.length === 0 ? (
-                                    <p className="text-muted text-center">
-                                        No items in cart
-                                    </p>
+                                    <p>No items yet</p>
                                 ) : (
                                     cartItems.map((item, index) => (
                                         <div
                                             key={index}
-                                            className="d-flex justify-content-between align-items-center border rounded-3 p-3 mb-2"
+                                            className="border rounded p-2 mb-2"
                                         >
-                                            <div>
-                                                <strong>{item.name}</strong>
-                                                <br />
-                                                <small className="text-muted">
-                                                    {item.price} บาท
-                                                </small>
-                                            </div>
+                                            <strong>{item.name}</strong>
+                                            <br />
+                                            {item.price} บาท
 
                                             <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => removeItem(index)}
+                                                className="btn btn-danger btn-sm mt-2 w-100"
+                                                onClick={() =>
+                                                    removeItem(index)
+                                                }
                                             >
                                                 Remove
                                             </button>
@@ -97,14 +186,7 @@ export default function ShoppingCart() {
                                 )}
 
                                 <hr />
-
-                                <h3 className="text-end">
-                                    Total:
-                                    <span className="text-primary fw-bold ms-2">
-                                        {totalPrice}
-                                    </span>
-                                    บาท
-                                </h3>
+                                <h4>Total: {totalPrice} บาท</h4>
                             </div>
                         </div>
                     </div>
