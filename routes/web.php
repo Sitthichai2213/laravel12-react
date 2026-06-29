@@ -51,4 +51,33 @@ Route::get('/bootstrap', function () {
     return Inertia::render('BootstrapContent');
 })->name('bootstrap');
 
+Route::get('/circle', function () {
+    return Inertia::render('Circle');
+})->name('circle');
+
+//routes/web.php
+Route::get('/counter', function () {
+    return Inertia::render('Counter');
+})->name('counter');
+
+//routes/web.php
+Route::get('/form-example', function () {
+    return Inertia::render('FormExample');
+})->name('form-example');
+
+//routes/web.php
+Route::get('/list-manager', function () {
+    return Inertia::render('ListManager');
+})->name('list-manager');
+
+//routes/web.php
+Route::get('/infinite-scroll', function () {
+    return Inertia::render('InfiniteScrollExample');
+})->name('infinite-scroll');
+
+//routes/web.php
+Route::get('/shopping-cart', function () {
+    return Inertia::render('ShoppingCart');
+})->name('shopping-cart');
+
 require __DIR__.'/auth.php';
