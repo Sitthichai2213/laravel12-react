@@ -93,5 +93,8 @@ Route::get('/product-others', function () {
     return Inertia::render('ProductOthers');
 })->name('product-others');
 
+Route::get('/quiz4', function () {
+    return inertia('Quiz4');
+});
 
 require __DIR__.'/auth.php';
