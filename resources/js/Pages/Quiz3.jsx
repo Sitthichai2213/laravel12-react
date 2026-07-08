@@ -2,7 +2,7 @@ import { useState } from "react";
 import BootstrapLayout from "@/Layouts/BootstrapLayout";
 import { Head } from "@inertiajs/react";
 
-export default function ShoppingCart() {
+export default function quiz3() {
 
     // ==========================
     // Product Data

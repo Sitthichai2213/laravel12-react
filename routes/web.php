@@ -76,10 +76,9 @@ Route::get('/infinite-scroll', function () {
     return Inertia::render('InfiniteScrollExample');
 })->name('infinite-scroll');
 
-//routes/web.php
-Route::get('/shopping-cart', function () {
-    return Inertia::render('ShoppingCart');
-})->name('shopping-cart');
+Route::get('/quiz3', function () {
+    return Inertia::render('Quiz3');
+});
 
 // routes/web.php
 // use App\Models\Product;
