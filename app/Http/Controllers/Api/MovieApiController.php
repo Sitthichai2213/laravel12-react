@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Models\Movie;
 
 class MovieApiController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return response()->json(
-            DB::table('movies')->get()
-        );
+        $movies = Movie::all();
+
+        return response()->json($movies);
     }
 }
